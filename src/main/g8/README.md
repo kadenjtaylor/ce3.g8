@@ -4,12 +4,16 @@ An example application built from the [ce3.g8 template](https://github.com/typel
 
 ## Run application
 
-```shell
+```bash
 sbt run
 ```
 
-## Run tests
+$if(dockerize.truthy)$
+## Dockerize
 
-```shell
-sbt test
+```bash
+sbt docker:publishLocal
+# should create `./target/docker/stage/Dockerfile`
 ```
+$endif$
+
