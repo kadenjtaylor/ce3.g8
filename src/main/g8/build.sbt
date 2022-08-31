@@ -1,3 +1,5 @@
+$if(dockerize.truthy)$enablePlugins(JavaAppPackaging)$endif$
+
 ThisBuild / organization := "com.example"
 ThisBuild / scalaVersion := $if(scala3.truthy)$"3.1.3"$else$"2.13.5"$endif$
 
@@ -15,5 +17,6 @@ lazy val root = (project in file(".")).settings(
     compilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")$endif$$if(testlib-use-cats-effect-testing-specs2.truthy)$,
     "org.typelevel" %% "cats-effect-testing-specs2" % "1.4.0" % Test$else$$endif$$if(testlib-use-munit-cats-effect-3.truthy)$,
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test$else$$endif$
-  )
+  ),
+  $if(dockerize.truthy)$dockerExposedPorts ++= Seq(9000, 9001)$endif$
 )
