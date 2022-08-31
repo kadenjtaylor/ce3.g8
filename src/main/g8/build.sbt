@@ -18,5 +18,12 @@ lazy val root = (project in file(".")).settings(
     "org.typelevel" %% "cats-effect-testing-specs2" % "1.4.0" % Test$else$$endif$$if(testlib-use-munit-cats-effect-3.truthy)$,
     "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test$else$$endif$
   ),
+  $if(is-server.truthy)$
+  libraryDependencies ++= Seq(
+    "org.http4s" %% "http4s-dsl"          % "0.23.15",
+    "org.http4s" %% "http4s-ember-server" % "0.23.15",
+    "org.http4s" %% "http4s-ember-client" % "0.23.15"
+  ),
+  $endif$
   $if(dockerize.truthy)$dockerExposedPorts ++= Seq(9000, 9001)$endif$
 )
