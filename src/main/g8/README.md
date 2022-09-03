@@ -17,3 +17,21 @@ sbt docker:publishLocal
 ```
 $endif$
 
+
+$if(is-server.truthy)$
+## Server
+Testing the _POST_ endpoint!
+```
+curl --location --request POST 'localhost:8080/sort' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "nums": [
+        1,
+        4,
+        7,
+        2,
+        5
+    ]
+}'
+```
+$endif$
