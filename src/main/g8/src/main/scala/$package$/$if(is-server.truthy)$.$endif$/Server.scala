@@ -13,7 +13,7 @@ object Server extends IOApp {
 
   val helloWorldService = HttpRoutes
     .of[IO] { case GET -> Root / "hello" / name =>
-      Ok(s"Hello, \$name.")
+      HelloWorld.say(name).flatMap(Ok(_))
     }
     .orNotFound
 

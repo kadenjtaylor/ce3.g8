@@ -22,7 +22,17 @@ lazy val root = (project in file(".")).settings(
   libraryDependencies ++= Seq(
     "org.http4s" %% "http4s-dsl"          % "0.23.15",
     "org.http4s" %% "http4s-ember-server" % "0.23.15",
-    "org.http4s" %% "http4s-ember-client" % "0.23.15"
+    "org.http4s" %% "http4s-ember-client" % "0.23.15",
+    "org.http4s" %% "http4s-circe"        % "0.23.15"
+  ),
+  libraryDependencies ++= Seq(
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+  ).map(_ % "0.14.1"),
+  libraryDependencies ++= Seq(
+    "ch.qos.logback" % "logback-classic" % "1.2.6",
+    "org.typelevel" %% "log4cats-slf4j"  % "2.4.0"
   ),
   $endif$
   $if(dockerize.truthy)$dockerExposedPorts ++= Seq(9000, 9001)$endif$
