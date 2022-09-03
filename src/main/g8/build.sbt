@@ -1,10 +1,9 @@
 $if(dockerize.truthy)$enablePlugins(JavaAppPackaging)$endif$
 
-ThisBuild / organization := "com.example"
-ThisBuild / scalaVersion := "3.1.3"
-
 lazy val root = (project in file(".")).settings(
   name := "$name;format="norm"$",
+  organization := "$package$",
+  scalaVersion := "3.1.3",
   libraryDependencies ++= Seq(
     // "core" module - IO, IOApp, schedulers
     // This pulls in the kernel and std modules automatically.
@@ -21,12 +20,14 @@ lazy val root = (project in file(".")).settings(
     $endif$
   ),
   $if(is-server.truthy)$
+  // For running an http4s server
   libraryDependencies ++= Seq(
     "org.http4s" %% "http4s-dsl"          % "0.23.15",
     "org.http4s" %% "http4s-ember-server" % "0.23.15",
     "org.http4s" %% "http4s-ember-client" % "0.23.15",
     "org.http4s" %% "http4s-circe"        % "0.23.15"
   ),
+  // Serializing/Parsing for the server
   libraryDependencies ++= Seq(
     "io.circe" %% "circe-core",
     "io.circe" %% "circe-generic",
@@ -34,6 +35,7 @@ lazy val root = (project in file(".")).settings(
   ).map(_ % "0.14.1"),
   $endif$
   $if(logging.truthy)$
+  // Effectful logging via Log4Cats -> SLF4J -> Logback
   libraryDependencies ++= Seq(
     "ch.qos.logback" % "logback-classic" % "1.2.6",
     "org.typelevel" %% "log4cats-slf4j"  % "2.4.0"
