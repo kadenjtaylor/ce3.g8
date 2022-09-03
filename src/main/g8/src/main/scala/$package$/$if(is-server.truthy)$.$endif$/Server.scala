@@ -8,6 +8,8 @@ import org.http4s.dsl.io._
 import org.http4s.implicits._
 import org.http4s.ember.server.EmberServerBuilder
 import scala.concurrent.ExecutionContext.global
+import com.comcast.ip4s.ipv4
+import com.comcast.ip4s.port
 import Sorting._
 
 // Needed to generate encoders/decoders from case classes
@@ -52,6 +54,8 @@ object Server extends IOApp {
   def run(args: List[String]): IO[ExitCode] =
     EmberServerBuilder
       .default[IO]
+      .withHost(ipv4"0.0.0.0")
+      .withPort(port"8080")
       .withHttpApp(helloWorldService)
       .build
       .use(_ => IO.never)

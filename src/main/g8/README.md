@@ -12,17 +12,27 @@ $if(dockerize.truthy)$
 ## Dockerize
 
 ```bash
-sbt docker:publishLocal
 # should create `./target/docker/stage/Dockerfile`
+sbt docker:publishLocal
+
+# Example Docker run command (make sure to forward to exposed port)
+docker run -p 8080:8080 cats-effect-3-app:0.1.0-SNAPSHOT
+
 ```
 $endif$
 
 
 $if(is-server.truthy)$
 ## Server
-Testing the _POST_ endpoint!
+Testing the (GET) _/hello/\${name}_ endpoint
+```bash
+curl localhost:8080/hello/bob
+# "Hello bob"
 ```
-curl --location --request POST 'localhost:8080/sort' \
+
+Testing the (POST) _/sort_ endpoint
+```bash
+curl --request POST 'localhost:8080/sort' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nums": [
@@ -33,5 +43,6 @@ curl --location --request POST 'localhost:8080/sort' \
         5
     ]
 }'
+# {"nums":[1,2,4,5,7]}
 ```
 $endif$
