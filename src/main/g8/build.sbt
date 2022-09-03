@@ -11,14 +11,11 @@ lazy val root = (project in file(".")).settings(
     // concurrency abstractions and primitives (Concurrent, Sync, Async etc.)
     "org.typelevel" %% "cats-effect-kernel" % "3.3.12",
     // standard "effect" library (Queues, Console, Random etc.)
-    "org.typelevel" %% "cats-effect-std" % "3.3.12"
-    $if(testlib-use-cats-effect-testing-specs2.truthy)$,
-    "org.typelevel" %% "cats-effect-testing-specs2" % "1.4.0" % Test
-    $endif$
-    $if(testlib-use-munit-cats-effect-3.truthy)$,
-    "org.typelevel" %% "munit-cats-effect-3" % "1.0.7" % Test
-    $endif$
+    "org.typelevel" %% "cats-effect-std" % "3.3.12",
+    // Effectful testing via Weaver
+    "com.disneystreaming" %% "weaver-cats" % "0.7.6" % Test
   ),
+  testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
   $if(is-server.truthy)$
   // For running an http4s server
   libraryDependencies ++= Seq(
