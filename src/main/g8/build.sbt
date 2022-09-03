@@ -30,6 +30,8 @@ lazy val root = (project in file(".")).settings(
     "io.circe" %% "circe-generic",
     "io.circe" %% "circe-parser"
   ).map(_ % "0.14.1"),
+  $endif$
+  $if(logging.truthy)$
   libraryDependencies ++= Seq(
     "ch.qos.logback" % "logback-classic" % "1.2.6",
     "org.typelevel" %% "log4cats-slf4j"  % "2.4.0"
