@@ -13,11 +13,10 @@ $if(dockerize.truthy)$
 
 ```bash
 # should create `./target/docker/stage/Dockerfile`
-sbt docker:publishLocal
+sbt "Docker/publishLocal"
 
 # Example Docker run command (make sure to forward to exposed port)
 docker run -p 8080:8080 cats-effect-3-app:0.1.0-SNAPSHOT
-
 ```
 $endif$
 
