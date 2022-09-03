@@ -9,6 +9,10 @@ import org.http4s.implicits._
 import org.http4s.ember.server.EmberServerBuilder
 import scala.concurrent.ExecutionContext.global
 
+// Needed to generate encoders/decoders from case classes
+import io.circe.generic.auto._
+import org.http4s.circe.CirceEntityCodec._
+
 $if(logging.truthy)$
 // Logging imports
 import org.typelevel.log4cats.SelfAwareStructuredLogger
@@ -23,8 +27,17 @@ object Server extends IOApp {
   $endif$
 
   val helloWorldService = HttpRoutes
-    .of[IO] { case GET -> Root / "hello" / name =>
-      HelloWorld.say(name).flatMap(Ok(_))
+    .of[IO] {
+      case GET -> Root / "hello" / name => {
+        IO.println(SortRequest(1, 4, 7, 2, 5).asJson)
+        HelloWorld.say(name).flatMap(Ok(_))
+      }
+      case req @ POST -> Root / "sort" =>
+        for {
+          sortReq      <- req.as[SortRequest]
+          sortResponse <- Sorting.sortingEndpoint(sortReq)
+          response     <- Ok(sortResponse)
+        } yield response
     }
     .orNotFound
 
